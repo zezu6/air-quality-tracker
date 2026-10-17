@@ -1,10 +1,6 @@
 import requests, config
 
 
-def fetch_weather(latitude: float, longitude: float, ) -> dict:
-    pass
-
-
 params = {
     "latitude": config.GIOS_STATIONS[1]["lat"],
     "longitude": config.GIOS_STATIONS[1]["long"],
@@ -18,6 +14,12 @@ params = {
     "timezone": "GMT"
 }
 
+
+def fetch_weather(latitude: float, longitude: float, ) -> dict:
+    # get measurements for the last 12 hours
+    pass
+
+
 resp = requests.get(config.METEO_URL, params=params, timeout=config.TIMEOUT)
 measurements = resp.json()["hourly"]
 
@@ -28,4 +30,3 @@ for k in measurements.keys():
 
 #TODO: napisać funkcję przyjmującą współrzędne i liczbę godzin wstecz
 #TODO: ogarnąć jednolity czas dla pomiarów z GIOŚ i Meteo
-#TODO: przetłumaczyć cały kod na angielski
