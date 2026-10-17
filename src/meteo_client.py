@@ -1,32 +1,30 @@
 import requests, config
 
 
-params = {
-    "latitude": config.GIOS_STATIONS[1]["lat"],
-    "longitude": config.GIOS_STATIONS[1]["long"],
-    "hourly": ["temperature_2m",
-               "relative_humidity_2m",
-               "wind_speed_10m",
-               "wind_direction_10m",
-               "precipitation",
-               "surface_pressure",
-               "boundary_layer_height"],
-    "timezone": "GMT"
-}
+def fetch_weather(lat: float, long: float) -> list[dict]: # function returns time in UTC format
+    params = {
+        "latitude": lat,
+        "longitude": long,
+        "hourly": ["temperature_2m",
+                   "relative_humidity_2m",
+                   "wind_speed_10m",
+                   "wind_direction_10m",
+                   "precipitation",
+                   "surface_pressure",
+                   "boundary_layer_height"],
+        "forecast_hours": 0,
+        "past_hours": config.PAST_HOURS,
+        "timezone": "GMT"
+    }
+    resp = requests.get(config.METEO_URL, params=params, timeout=config.TIMEOUT)
+    resp.raise_for_status()
+    measurements = resp.json()["hourly"]
+    measurements = [{key: measurements[key][i] for key in measurements.keys()} for i in range(len(measurements["time"]))]
+    return measurements
 
 
-def fetch_weather(latitude: float, longitude: float, ) -> dict:
-    # get measurements for the last 12 hours
-    pass
+if __name__ == "__main__":
+    for station in config.GIOS_STATIONS:
+        print(fetch_weather(lat=station["lat"], long=station["long"]))
 
-
-resp = requests.get(config.METEO_URL, params=params, timeout=config.TIMEOUT)
-measurements = resp.json()["hourly"]
-
-print(measurements["time"])
-for k in measurements.keys():
-    print(k, len(measurements[k]))
-
-
-#TODO: napisać funkcję przyjmującą współrzędne i liczbę godzin wstecz
-#TODO: ogarnąć jednolity czas dla pomiarów z GIOŚ i Meteo
+#TODO: change time format for ISO text

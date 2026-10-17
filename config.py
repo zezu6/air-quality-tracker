@@ -1,5 +1,6 @@
 TIMEOUT = 10
 METEO_URL = "https://api.open-meteo.com/v1/forecast"
+PAST_HOURS = 12
 
 GIOS_STATIONS = [
     {"id": 400,
