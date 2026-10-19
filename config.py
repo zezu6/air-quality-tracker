@@ -1,5 +1,6 @@
 TIMEOUT = 10
 METEO_URL = "https://api.open-meteo.com/v1/forecast"
+GIOS_URL = "https://api.gios.gov.pl/pjp-api/v1/rest/data/getData/"
 PAST_HOURS = 12
 
 GIOS_STATIONS = [
