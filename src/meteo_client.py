@@ -1,5 +1,5 @@
 import requests, config
-from time_utils import to_utc_iso
+from utils import to_utc_iso
 
 HOURLY_VARS = [
     "temperature_2m",
