@@ -7,7 +7,7 @@ def to_utc_iso(gmt_time: str) -> str:
     return t.isoformat(timespec='minutes')
 
 
-def column_name(name: str) -> str:
-    return name.lower().replace('.', '')
+def column_name(pollutant: str) -> str:
+    return pollutant.lower().replace('.', '')
 
 

@@ -1,22 +1,31 @@
-import requests, config
+import requests, config, utils
 
 
-def fetch_air_quality(sensors: dict[int, str]) -> list[dict]:
-    sensors_hourly = []
-    for sensor_id, code in sensors.items():
+def fetch_air_quality(sensors: dict[int, str], hours_back: int) -> list[dict]:
+    """Zwraca listę wierszy (jeden na godzinę, rosnąco po 'time', UTC ISO).
+        Każdy wiersz ma wszystkie kolumny zanieczyszczeń; brak pomiaru = None."""
+    columns = [utils.column_name(val) for val in sensors.values()]
+    hourly = {}
+
+    for sensor_id, pollutant in sensors.items():
         resp = requests.get(f"{config.GIOS_URL}{sensor_id}", timeout=config.TIMEOUT)
         resp.raise_for_status()
-        print(resp.json()["Lista danych pomiarowych"])
-        hourly = [{row["Data"]: row["Wartość"]} for row in resp.json()["Lista danych pomiarowych"]]
-        print(hourly)
-        break
+        data = resp.json()["Lista danych pomiarowych"]
+        col = utils.column_name(pollutant)
 
-    return sensors_hourly
+        for row in data:
+            t = row["Data"]
+            if t not in hourly:
+                hourly[t] = {"time": t, **dict.fromkeys(columns)}
+
+            hourly[t][col] = row["Wartość"]
+
+
+    return sorted(list(hourly.values()), key=lambda r: r["time"])
 
 if __name__ == "__main__":
-    fetch_air_quality(config.GIOS_STATIONS[0]["sensors"])
+    print(fetch_air_quality(config.GIOS_STATIONS[0]["sensors"], config.PAST_HOURS))
 
 
-#TODO: function such as in meteo_client with time in UTC format (ISO text)
 
-
+#TODO: dodać obsługę parametru hours_back i zmienić czaś na UTC
