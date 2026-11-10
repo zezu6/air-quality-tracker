@@ -8,18 +8,16 @@ GIOS_STATIONS = [
      "name": "Kraków, Aleja Krasińskiego",
      "sensors": {2746: 'NO', 2747: 'NO2', 2748: 'NOx', 2750: 'PM10', 2752: 'PM2.5'},
      "lat": 50.057678,
-     "long": 19.926189
-     },
+     "long": 19.926189},
     {"id": 530,
      "name": "Warszawa, Al. Niepodległości",
      "sensors": {3579: 'NO', 3580: 'NO2', 3581: 'NOx', 3584: 'PM10', 3585: 'PM2.5'},
-    "lat": 52.219298,
+     "lat": 52.219298,
      "long": 21.004724
      },
-    {"id": 612,
-     "name": "Borsukowizna, Szkółka Leśna",
-     "sensors": {4039: 'NO', 4040: 'NO2', 4041: 'NOx', 19657: 'PM10', 19696: 'PM2.5'},
-    "lat": 53.215492,
-     "long": 23.642153
-     }
+    {"id": 9913,
+     "name": "Guty Duże",
+     "sensors": {16036: 'NO', 16037: 'NO2', 16039: 'NOx', 17276: 'PM10', 25921: 'PM2.5'},
+     "lat": 52.943172,
+     "long": 21.288167}
 ]
