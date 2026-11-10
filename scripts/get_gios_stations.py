@@ -10,4 +10,3 @@ stations_list = r.json()["Lista stacji pomiarowych"]
 for station in stations_list:
     if station["Identyfikator stacji"] in IDS:
         print(station)
-

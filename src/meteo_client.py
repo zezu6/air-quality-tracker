@@ -12,7 +12,7 @@ HOURLY_VARS = [
 ]
 
 
-def fetch_weather(lat: float, long: float, hours_back: int) -> list[dict]:
+def fetch_weather(lat: float, long: float, hours_back: int = config.PAST_HOURS) -> list[dict]:
     """Pobiera pomiary z ostatnich `hours_back` godzin.
 
     Zwraca listę słowników, w których `time` jest w formacie ISO z '+00:00'.
@@ -38,5 +38,5 @@ def fetch_weather(lat: float, long: float, hours_back: int) -> list[dict]:
 
 if __name__ == "__main__":
     for station in config.GIOS_STATIONS:
-        print(fetch_weather(station["lat"], station["long"], config.PAST_HOURS))
+        print(fetch_weather(station["lat"], station["long"]))
 

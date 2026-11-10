@@ -10,6 +10,3 @@ for station_id in IDS:
     sensors = r.json()["Lista stanowisk pomiarowych dla podanej stacji"]
     station_sensors = {s["Identyfikator stanowiska"]: s["Wskaźnik - kod"] for s in sensors}
     print(station_id, station_sensors)
-
-
-

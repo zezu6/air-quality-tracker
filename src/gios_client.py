@@ -1,7 +1,7 @@
 import requests, config, src.utils
 
 
-def fetch_air_quality(sensors: dict[int, str], hours_back: int) -> list[dict]:
+def fetch_air_quality(sensors: dict[int, str], hours_back: int = config.PAST_HOURS) -> list[dict]:
     """Zwraca listę wierszy (jeden na godzinę, rosnąco po 'time', UTC ISO).
         Każdy wiersz ma wszystkie kolumny zanieczyszczeń; brak pomiaru = None."""
     columns = [src.utils.column_name(val) for val in sensors.values()]
@@ -23,6 +23,8 @@ def fetch_air_quality(sensors: dict[int, str], hours_back: int) -> list[dict]:
     sensors_hourly = sorted(hourly.values(), key=lambda r: r["time"])[-hours_back:]
     return sensors_hourly
 
+
 if __name__ == "__main__":
-    print(fetch_air_quality(config.GIOS_STATIONS[0]["sensors"], config.PAST_HOURS))
+    for station in config.GIOS_STATIONS:
+        print(fetch_air_quality(station["sensors"]))
 
