@@ -1,5 +1,5 @@
 import requests, config
-from utils import to_utc_iso
+from src.utils import gmt_to_utc
 
 HOURLY_VARS = [
     "temperature_2m",
@@ -13,10 +13,6 @@ HOURLY_VARS = [
 
 
 def fetch_weather(lat: float, long: float, hours_back: int = config.PAST_HOURS) -> list[dict]:
-    """Pobiera pomiary z ostatnich `hours_back` godzin.
-
-    Zwraca listę słowników, w których `time` jest w formacie ISO z '+00:00'.
-    """
     params = {
         "latitude": lat,
         "longitude": long,
@@ -31,7 +27,7 @@ def fetch_weather(lat: float, long: float, hours_back: int = config.PAST_HOURS) 
     hourly = resp.json()["hourly"]
     measurements = [{key: hourly[key][i] for key in hourly.keys()} for i in range(len(hourly["time"]))]
     for row in measurements:
-        row["time"] = to_utc_iso(row["time"])
+        row["time"] = gmt_to_utc(row["time"])
 
     return measurements
 
